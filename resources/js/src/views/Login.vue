@@ -194,6 +194,8 @@ import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import jwt from '@/auth/jwt/useJwt'
+import { getHomeRouteForLoggedInUser } from '@/auth/utils'
 
 export default {
   components: {
@@ -240,19 +242,32 @@ export default {
     },
   },
   methods: {
-    validationForm() {
-      this.$refs.loginValidation.validate().then(success => {
-        if (success) {
+    async validationForm() {
+      const success = await this.$refs.loginValidation.validate()
+
+      if (success) {
+        try {
+          const res = await jwt.login({
+            email: this.userEmail,
+            password: this.password,
+          })
+
+          jwt.setToken(res.data.accessToken)
+
+          this.$router.push('/')
+          
           this.$toast({
             component: ToastificationContent,
             props: {
-              title: 'Form Submitted',
+              title: 'Successfully logged in',
               icon: 'EditIcon',
               variant: 'success',
             },
           })
+        } catch (error) {
+          console.dir(error)
         }
-      })
+      }
     },
   },
 }
