@@ -9,6 +9,8 @@ class Type extends Model
 {
     use HasFactory;
 
+    public $guarded = [];
+
     public function timeEntries()
     {
         return $this->hasMany(TimeEntry::class);

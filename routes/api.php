@@ -33,5 +33,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('users/{user}/types', [UserTypeController::class, 'index']);
     Route::get('users/{user}/categories', [UserCategoryController::class, 'index']);
     Route::get('users/{user}/tags', [UserTagController::class, 'index']);
+
     Route::get('users/{user}/time-entries', [UserTimeEntryController::class, 'index']);
+    Route::post('users/{user}/time-entries', [UserTimeEntryController::class, 'store']);
+    Route::put('users/{user}/time-entries/{timeEntry:id}', [UserTimeEntryController::class, 'update']);
 });

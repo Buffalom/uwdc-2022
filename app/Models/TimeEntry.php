@@ -9,6 +9,8 @@ class TimeEntry extends Model
 {
     use HasFactory;
 
+    public $guarded = [];
+
     public $casts = [
         'date' => 'date',
         'created_at' => 'date',
