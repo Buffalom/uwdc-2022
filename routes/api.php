@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserCategoryController;
-use App\Http\Controllers\UserTimeEntryController;
-use App\Http\Controllers\UserTypeController;
-use App\Http\Controllers\UserTagController;
+use App\Http\Controllers\Api\UserCategoryController;
+use App\Http\Controllers\Api\UserTimeEntryController;
+use App\Http\Controllers\Api\UserTypeController;
+use App\Http\Controllers\Api\UserTagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

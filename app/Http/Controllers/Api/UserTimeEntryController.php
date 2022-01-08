@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTimeEntryRequest;
-use App\Http\Requests\UpdateTimeEntryRequest;
 use App\Http\Resources\TimeEntryResource;
 use App\Models\Category;
 use App\Models\Tag;
