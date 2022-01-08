@@ -1,3 +1,4 @@
+import jwt from '@/auth/jwt/useJwt'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -11,6 +12,13 @@ const router = new VueRouter({
   },
   routes: [
     {
+      beforeEnter: (to, from, next) => {
+        if (!jwt.getToken()) {
+          return next('/login')
+        }
+
+        return next()
+      },
       path: '/',
       name: 'home',
       component: () => import('@/views/Home.vue'),
@@ -20,20 +28,6 @@ const router = new VueRouter({
         breadcrumb: [
           {
             text: 'Home',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
-      meta: {
-        pageTitle: 'Second Page',
-        breadcrumb: [
-          {
-            text: 'Second Page',
             active: true,
           },
         ],

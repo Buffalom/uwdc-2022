@@ -60,6 +60,10 @@ export default {
     BLink,
     EntriesTable,
   },
+
+  created() {
+    this.$store.dispatch('user/fetchUser')
+  },
 }
 </script>
 

@@ -22,24 +22,30 @@
         variant="primary"
         @click="addNewEntry()"
       >
-        Logout
+        Add Entry
       </b-button>
     </div>
 
     <b-navbar-nav class="nav align-items-center ml-auto">
-      <div class="d-sm-flex flex-column align-items-end d-none user-nav mr-2">
+      <div v-if="user" class="d-sm-flex flex-column align-items-end d-none user-nav mr-2">
         <p class="user-name font-weight-bolder mb-0">
-          John Doe
+          {{ user.name }}
         </p>
         <span class="user-status text-muted">Competitor</span>
       </div>
 
       <b-button
+        v-if="isLoggedIn"
         variant="outline-secondary"
         @click="logout()"
       >
         Logout
       </b-button>
+      <a v-else href="/login">
+      <b-button variant="primary">
+        Login
+      </b-button>
+      </a>
     </b-navbar-nav>
   </div>
 </template>
@@ -50,6 +56,7 @@ import {
 } from 'bootstrap-vue'
 import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
 import jwt from '@/auth/jwt/useJwt'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -67,6 +74,14 @@ export default {
     },
   },
 
+  computed: {
+    ...mapState('user', ['user']),
+
+    isLoggedIn() {
+      return !!this.user
+    }
+  },
+
   methods: {
     async logout() {
       try {
@@ -74,6 +89,7 @@ export default {
       } catch (error) {
         console.dir(error)
       } finally {
+        jwt.setToken(null)
         this.$router.push('/login')
       }
     },
