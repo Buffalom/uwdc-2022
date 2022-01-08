@@ -17,6 +17,10 @@ class TimeEntryResource extends JsonResource
         return [
             ...parent::toArray($request),
 
+            'type' => JsonResource::make($this->whenLoaded('type')),
+            'category' => JsonResource::make($this->whenLoaded('category')),
+            'tags' => JsonResource::collection($this->whenLoaded('tags')),
+
             'date' => $this->date->toDateString(),
         ];
     }

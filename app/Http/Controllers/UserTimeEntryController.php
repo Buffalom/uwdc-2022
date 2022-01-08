@@ -20,7 +20,13 @@ class UserTimeEntryController extends Controller
     {
         abort_unless($request->user()->id === $user->id, 404);
 
-        return TimeEntryResource::collection($user->timeEntries);
+        return TimeEntryResource::collection(
+            $user->timeEntries->load([
+                'type',
+                'category',
+                'tags',
+            ])
+        );
     }
 
     /**
