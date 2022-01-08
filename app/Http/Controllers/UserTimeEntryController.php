@@ -9,7 +9,7 @@ use App\Models\TimeEntry;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class TimeEntryController extends Controller
+class UserTimeEntryController extends Controller
 {
     /**
      * Display a listing of the resource.

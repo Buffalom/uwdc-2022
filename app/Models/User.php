@@ -46,4 +46,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(TimeEntry::class);
     }
+
+    public function types()
+    {
+        return $this->belongsToMany(Type::class, 'time_entries');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'time_entries');
+    }
 }

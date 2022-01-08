@@ -20,7 +20,8 @@ class CreateTimeEntriesTable extends Migration
             $table->foreignId('type_id');
             $table->foreignId('category_id');
 
-            $table->string('notes');
+            $table->float('spent_time');
+            $table->string('notes')->nullable();
 
             $table->timestamps();
         });

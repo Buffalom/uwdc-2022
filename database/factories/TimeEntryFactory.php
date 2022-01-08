@@ -15,6 +15,7 @@ class TimeEntryFactory extends Factory
     public function definition()
     {
         return [
+            'spent_time' => $this->faker->randomFloat(1, 0, 10),
             'notes' => $this->faker->sentence(),
         ];
     }
