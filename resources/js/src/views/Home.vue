@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="user && user.id">
     <b-row>
       <b-col>
         <b-card
@@ -49,6 +49,8 @@
 <script>
 import { BRow, BCol, BCard, BCardText, BLink, BCardHeader } from 'bootstrap-vue'
 import EntriesTable from '@/views/dashboard/EntriesTable'
+import { mapState } from 'vuex'
+
 
 export default {
   components: {
@@ -59,6 +61,10 @@ export default {
     BCardText,
     BLink,
     EntriesTable,
+  },
+
+  computed: {
+    ...mapState('user', ['user']),
   },
 
   created() {
