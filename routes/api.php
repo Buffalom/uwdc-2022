@@ -37,4 +37,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('users/{user}/time-entries', [UserTimeEntryController::class, 'index']);
     Route::post('users/{user}/time-entries', [UserTimeEntryController::class, 'store']);
     Route::put('users/{user}/time-entries/{timeEntry:id}', [UserTimeEntryController::class, 'update']);
+    Route::delete('users/{user}/time-entries/{timeEntry:id}', [UserTimeEntryController::class, 'destroy']);
 });

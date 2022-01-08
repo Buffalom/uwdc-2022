@@ -18,6 +18,7 @@ class UserTimeEntryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, User $user)
@@ -37,6 +38,7 @@ class UserTimeEntryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreTimeEntryRequest  $request
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function store(StoreTimeEntryRequest $request, User $user)
@@ -76,8 +78,6 @@ class UserTimeEntryController extends Controller
             'category_id' => $category->id,
             
             'date' => Arr::get($data, 'date'),
-
-            'date' => Arr::get($data, 'date'),
             'spent_time' => Arr::get($data, 'spent_time'),
             'notes' => Arr::get($data, 'notes'),
         ]);
@@ -96,19 +96,67 @@ class UserTimeEntryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateTimeEntryRequest  $request
+     * @param  \App\Http\Requests\StoreTimeEntryRequest  $request
+     * @param  \App\Models\User  $user
      * @param  \App\Models\TimeEntry  $timeEntry
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTimeEntryRequest $request, User $user, TimeEntry $timeEntry)
+    public function update(StoreTimeEntryRequest $request, User $user, TimeEntry $timeEntry)
     {
         abort_unless($request->user()->id === $user->id, 403);
         abort_unless($request->user()->id === $timeEntry->user->id, 403);
+        
+        $data = $request->validated();
+
+        $type = Type::find(Arr::get($data, 'type.id'));
+        if (!$type) {
+            $type = Type::firstOrCreate([
+                'name' => Arr::get($data, 'type.name'),
+            ]);
+        }
+
+        $category = Category::find(Arr::get($data, 'category.id'));
+        if (!$category) {
+            $category = Category::firstOrCreate([
+                'name' => Arr::get($data, 'category.name'),
+            ]);
+        }
+
+        $tags = collect(Arr::get($data, 'tags'))->map(function ($tagData) {
+            $tag = Tag::find(Arr::get($tagData, 'id'));
+            if (!$tag) {
+                $tag = Tag::firstOrCreate([
+                    'name' => Arr::get($tagData, 'name'),
+                ]);
+            }
+
+            return $tag;
+        });
+
+        $timeEntry->update([
+            'type_id' => $type->id,
+            'category_id' => $category->id,
+            
+            'date' => Arr::get($data, 'date'),
+            'spent_time' => Arr::get($data, 'spent_time'),
+            'notes' => Arr::get($data, 'notes'),
+        ]);
+
+        $timeEntry->tags()->sync($tags->map->id);
+
+        return TimeEntryResource::make(
+            $timeEntry->load([
+                'type',
+                'category',
+                'tags',
+            ])
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Models\User  $user
      * @param  \App\Models\TimeEntry  $timeEntry
      * @return \Illuminate\Http\Response
      */
@@ -116,5 +164,9 @@ class UserTimeEntryController extends Controller
     {
         abort_unless($request->user()->id === $user->id, 403);
         abort_unless($request->user()->id === $timeEntry->user->id, 403);
+
+        $timeEntry->delete();
+
+        return response()->noContent();
     }
 }
