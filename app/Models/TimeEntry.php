@@ -10,6 +10,7 @@ class TimeEntry extends Model
     use HasFactory;
 
     public $casts = [
+        'date' => 'date',
         'created_at' => 'date',
         'updated_at' => 'date',
     ];
