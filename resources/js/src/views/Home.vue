@@ -1,30 +1,64 @@
 <template>
   <div>
-    <b-card title="Kick start your project 🚀">
-      <b-card-text>All the best for your new project.</b-card-text>
-      <b-card-text>Please make sure to read our <b-link
-        href="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/documentation/"
-        target="_blank"
-      >
-        Template Documentation
-      </b-link> to understand where to go from here and how to use our template.</b-card-text>
-    </b-card>
+    <b-row>
+      <b-col>
+        <b-card
+          no-body
+        >
+          <b-card-header>
+            <h4 class="mb-0">
+              Goal Overview
+            </h4>
+          </b-card-header>
 
-    <b-card title="Want to integrate JWT? 🔒">
-      <b-card-text>We carefully crafted JWT flow so you can implement JWT with ease and with minimum efforts.</b-card-text>
-      <b-card-text>Please read our  JWT Documentation to get more out of JWT authentication.</b-card-text>
-    </b-card>
+          <b-row class="text-center mx-0">
+            <b-col
+              cols="6"
+              class="border-top border-right d-flex align-items-between flex-column py-1"
+            >
+              <b-card-text class="text-muted mb-0">
+                Total
+              </b-card-text>
+              <h3 class="font-weight-bolder mb-0">
+                19.5h
+              </h3>
+            </b-col>
+
+            <b-col
+              cols="6"
+              class="border-top d-flex align-items-between flex-column py-1"
+            >
+              <b-card-text class="text-muted mb-0">
+                Last month
+              </b-card-text>
+              <h3 class="font-weight-bolder mb-0">
+                13.5h
+              </h3>
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-col>
+
+      <b-col md="8">
+        <EntriesTable />
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
-import { BCard, BCardText, BLink } from 'bootstrap-vue'
+import { BRow, BCol, BCard, BCardText, BLink, BCardHeader } from 'bootstrap-vue'
+import EntriesTable from '@/views/dashboard/EntriesTable'
 
 export default {
   components: {
+    BCardHeader,
+    BRow,
+    BCol,
     BCard,
     BCardText,
     BLink,
+    EntriesTable,
   },
 }
 </script>
